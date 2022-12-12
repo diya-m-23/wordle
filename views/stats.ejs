@@ -19,21 +19,21 @@
       Win %
     </th>
   </tr>
-  <%for(let i =0; i<opponents.length; i++){%>
+  <%for(let i =0; i<presets.length; i++){%>
   <th>
-    <a href="/opponent/<%=opponents[i].name%>"><%=opponents[i].name%></a>
+    <a href="/opponent/<%=presets[i].name%>"><%=presets[i].name%></a>
   </th>
   <th>
-    <%=opponents[i].win%>
+    <%=presets[i].win%>
   </th>
   <th>
-    <%=opponents[i].lose%>
+    <%=presets[i].lose%>
   </th>
   <th>
-    <%=opponents[i].tie%>
+    <%=presets[i].tie%>
   </th>
   <th>
-    <%=opponents[i].win_percent%>
+    <%=presets[i].win_percent%>
   </th>
   </tr>
   <%}%>

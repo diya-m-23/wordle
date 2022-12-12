@@ -22,37 +22,37 @@ app.get('/', function(request, response) {
   response.render("index");
 });
 
-app.get('/play', function(request, response) {
-    let opponents = JSON.parse(fs.readFileSync('data/opponents.json'));
+app.get('/game', function(request, response) {
+    let presets = JSON.parse(fs.readFileSync('data/presets.json'));
     response.status(200);
     response.setHeader('Content-Type', 'text/html')
-    response.render("play", {
-      data: opponents
+    response.render("game", {
+      data: presets
     });
 });
 
 app.get('/results', function(request, response) {
-    let opponents = JSON.parse(fs.readFileSync('data/opponents.json'));
+    let presets = JSON.parse(fs.readFileSync('data/presets.json'));
 
     //accessing URL query string information from the request object
     let opponent = request.query.opponent;
-    let playerThrow = request.query.throw;
+    let gameerThrow = request.query.throw;
 
-    if(opponents[opponent]){
+    if(presets[opponent]){
       let opponentThrowChoices=["Paper", "Rock", "Scissors"];
       let results={};
 
-      results["playerThrow"]=playerThrow;
+      results["gameerThrow"]=gameerThrow;
       results["opponentName"]=opponent;
-      results["opponentPhoto"]=opponents[opponent].photo;
+      results["opponentPhoto"]=presets[opponent].photo;
       results["opponentThrow"] = opponentThrowChoices[Math.floor(Math.random() * 3)];
 
-      if(results["playerThrow"]===results["opponentThrow"]){
+      if(results["gameerThrow"]===results["opponentThrow"]){
         results["outcome"] = "tie";
-      }else if(results["playerThrow"]==="Paper"){
+      }else if(results["gameerThrow"]==="Paper"){
         if(results["opponentThrow"]=="Scissors") results["outcome"] = "lose";
         else results["outcome"] = "win";
-      }else if(results["playerThrow"]==="Scissors"){
+      }else if(results["gameerThrow"]==="Scissors"){
         if(results["opponentThrow"]=="Rock") results["outcome"] = "lose";
         else results["outcome"] = "win";
       }else{
@@ -60,12 +60,12 @@ app.get('/results', function(request, response) {
         else results["outcome"] = "win";
       }
 
-      if(results["outcome"]=="lose") opponents[opponent]["win"]++;
-      else if(results["outcome"]=="win") opponents[opponent]["lose"]++;
-      else opponents[opponent]["tie"]++;
+      if(results["outcome"]=="lose") presets[opponent]["win"]++;
+      else if(results["outcome"]=="win") presets[opponent]["lose"]++;
+      else presets[opponent]["tie"]++;
 
-      //update opponents.json to permanently remember results
-      fs.writeFileSync('data/opponents.json', JSON.stringify(opponents));
+      //update presets.json to permanently remember results
+      fs.writeFileSync('data/presets.json', JSON.stringify(presets));
 
       response.status(200);
       response.setHeader('Content-Type', 'text/html')
@@ -82,14 +82,14 @@ app.get('/results', function(request, response) {
 });
 
 app.get('/scores', function(request, response) {
-  let opponents = JSON.parse(fs.readFileSync('data/opponents.json'));
+  let presets = JSON.parse(fs.readFileSync('data/presets.json'));
   let opponentArray=[];
 
   //create an array to use sort, and dynamically generate win percent
-  for(name in opponents){
-    opponents[name].win_percent = (opponents[name].win/parseFloat(opponents[name].win+opponents[name].lose+opponents[name].tie) * 100).toFixed(2);
-    if(opponents[name].win_percent=="NaN") opponents[name].win_percent=0;
-    opponentArray.push(opponents[name])
+  for(name in presets){
+    presets[name].win_percent = (presets[name].win/parseFloat(presets[name].win+presets[name].lose+presets[name].tie) * 100).toFixed(2);
+    if(presets[name].win_percent=="NaN") presets[name].win_percent=0;
+    opponentArray.push(presets[name])
   }
   opponentArray.sort(function(a, b){
     return parseFloat(b.win_percent)-parseFloat(a.win_percent);
@@ -98,24 +98,24 @@ app.get('/scores', function(request, response) {
   response.status(200);
   response.setHeader('Content-Type', 'text/html')
   response.render("scores",{
-    opponents: opponentArray
+    presets: opponentArray
   });
 });
 
 app.get('/opponent/:opponentName', function(request, response) {
-  let opponents = JSON.parse(fs.readFileSync('data/opponents.json'));
+  let presets = JSON.parse(fs.readFileSync('data/presets.json'));
 
   // using dynamic routes to specify resource request information
   let opponentName = request.params.opponentName;
 
-  if(opponents[opponentName]){
-    opponents[opponentName].win_percent = (opponents[opponentName].win/parseFloat(opponents[opponentName].win+opponents[opponentName].lose+opponents[opponentName].tie) * 100).toFixed(2);
-    if(opponents[opponentName].win_percent=="NaN") opponents[opponentName].win_percent=0;
+  if(presets[opponentName]){
+    presets[opponentName].win_percent = (presets[opponentName].win/parseFloat(presets[opponentName].win+presets[opponentName].lose+presets[opponentName].tie) * 100).toFixed(2);
+    if(presets[opponentName].win_percent=="NaN") presets[opponentName].win_percent=0;
 
     response.status(200);
     response.setHeader('Content-Type', 'text/html')
     response.render("opponentDetails",{
-      opponent: opponents[opponentName]
+      opponent: presets[opponentName]
     });
 
   }else{
@@ -137,7 +137,7 @@ app.post('/opponentCreate', function(request, response) {
     let opponentName = request.body.opponentName;
     let opponentPhoto = request.body.opponentPhoto;
     if(opponentName&&opponentPhoto){
-      let opponents = JSON.parse(fs.readFileSync('data/opponents.json'));
+      let presets = JSON.parse(fs.readFileSync('data/presets.json'));
       let newOpponent={
         "name": opponentName,
         "photo": opponentPhoto,
@@ -145,8 +145,8 @@ app.post('/opponentCreate', function(request, response) {
         "lose": 0,
         "tie": 0,
       }
-      opponents[opponentName] = newOpponent;
-      fs.writeFileSync('data/opponents.json', JSON.stringify(opponents));
+      presets[opponentName] = newOpponent;
+      fs.writeFileSync('data/presets.json', JSON.stringify(presets));
 
       response.status(200);
       response.setHeader('Content-Type', 'text/html')
