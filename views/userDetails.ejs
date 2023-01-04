@@ -1,0 +1,32 @@
+<%- include('partials/header', {title:"user Details- P, R, S"}) -%>
+
+<h2>user - <%=user.name%></h2>
+
+<table>
+  <tr>
+    <th>
+      Name:
+    </th>
+    <td>
+      <%=user.name%>
+    </td>
+  </tr>
+  <tr>
+    <th>
+      Diificulty 1 record time:
+    </th>
+    <td>
+      <%=user.dif1rectime%>
+    </td>
+  </tr>
+  <tr>
+    <th>
+      Losses:
+    </th>
+    <td>
+      <%=user.dif2rectime%>
+    </td>
+  </tr>
+</table>
+
+<%- include('partials/footer') -%>

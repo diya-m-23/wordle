@@ -1,0 +1,15 @@
+<%- include('partials/header', {title:"Create Opponent"}) -%>
+
+<h2>Create a New User!</h2>
+
+<form action="/userCreate" method="POST">
+  <label for="name">Name:</label>
+  <input type="text" id="name" name="userName" value=""><br>
+  <label for="photo">Password:</label>
+  <input type="text" id="password" name="password" value=""><br>
+  <br><br>
+  <input type="submit" value="Create a new user!">
+
+</form>
+
+<%- include('partials/footer') -%>
