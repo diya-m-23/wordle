@@ -23,29 +23,30 @@ app.get('/', function(request, response) {
 });
 
 app.get('/play', function(request, response) {
-    let opponents = JSON.parse(fs.readFileSync('data/opponents.json'));
+    let user = JSON.parse(fs.readFileSync('data/users.json'));
     response.status(200);
     response.setHeader('Content-Type', 'text/html')
     response.render("play", {
-      data: opponents
+      data: users
     });
 });
 
 app.get('/results', function(request, response) {
-    let opponents = JSON.parse(fs.readFileSync('data/opponents.json'));
+    let users = JSON.parse(fs.readFileSync('data/users.json'));
 
     //accessing URL query string information from the request object
-    let opponent = request.query.opponent;
-    let playerThrow = request.query.throw;
+    let user = request.query.user;
+    let userGuess = request.query.guess;
 
-    if(opponents[opponent]){
-      let opponentThrowChoices=["Paper", "Rock", "Scissors"];
+    if(users[user]){
+      let devilGuessChoices=["Paper", "Rock", "Scissors"];
+      let angelGuessChoices=["Paper", "Rock", "Scissors"];
       let results={};
 
-      results["playerThrow"]=playerThrow;
-      results["opponentName"]=opponent;
-      results["opponentPhoto"]=opponents[opponent].photo;
-      results["opponentThrow"] = opponentThrowChoices[Math.floor(Math.random() * 3)];
+      results["userGuess"]=userGuess;
+      results["userName"]=user;
+      results["devilGuess"] = devilGuessChoices[Math.floor(Math.random() * 3)];
+      results["angelGuess"] = angelGuessChoices[Math.floor(Math.random() * 3)];
 
       if(results["playerThrow"]===results["opponentThrow"]){
         results["outcome"] = "tie";
