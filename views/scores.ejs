@@ -1,19 +1,16 @@
-<%- include('partials/header', {title:"Weirdle: High Scores"}) -%>
+<%- include('partials/header', {title:"Weirdle: Player Leaderboard"}) -%>
 
-<h2>High Scores</h2>
+<h2>My Players</h2>
 <table>
   <tr>
     <th>
-      User
+      Name
     </th>
     <th>
       Wins
     </th>
     <th>
       Losses
-    </th>
-    <th>
-      Ties
     </th>
     <th>
       Win %
@@ -29,9 +26,6 @@
   </th>
   <th>
     <%=opponents[i].lose%>
-  </th>
-  <th>
-    <%=opponents[i].tie%>
   </th>
   <th>
     <%=opponents[i].win_percent%>

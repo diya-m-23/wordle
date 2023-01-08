@@ -1,14 +1,15 @@
-<%- include('partials/header', {title:"Create Opponent"}) -%>
+<%- include('partials/header', {title:"Edit User"}) -%>
 
-<h2>Create a New Opponent!</h2>
+<h2> - Edit User Profile -</h2>
 
 <form action="/opponentCreate" method="POST">
-  <label for="name">Name:</label>
+  <label for="name"> I'm playing as:</label>
   <input type="text" id="name" name="opponentName" value=""><br>
-  <label for="photo">Link to Photo:</label>
+  <br>
+  <label for="photo"> My avatar is:</label>
   <input type="text" id="photo" name="opponentPhoto" value=""><br>
-  <br><br>
-  <input type="submit" value="Create a new opponent!">
+  <br>
+  <input type="submit" value="Create a new user!">
 
 </form>
 

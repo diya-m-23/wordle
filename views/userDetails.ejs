@@ -1,6 +1,8 @@
-<%- include('partials/header', {title:"User Details- Weirdle"}) -%>
+<%- include('partials/header', {title:"Opponent Details- P, R, S"}) -%>
 
-<h2>user - <%=user.name%></h2>
+<h2>Opponent - <%=opponent.name%></h2>
+
+<img src="<%=opponent.photo%>" height=150 />
 
 <table>
   <tr>
@@ -8,23 +10,39 @@
       Name:
     </th>
     <td>
-      <%=user.name%>
+      <%=opponent.name%>
     </td>
   </tr>
   <tr>
     <th>
-      Difficulty 1 record time:
+      Wins:
     </th>
     <td>
-      <%=user.dif1rectime%>
+      <%=opponent.win%>
     </td>
   </tr>
   <tr>
     <th>
-      Difficulty 2 record time:
+      Losses:
     </th>
     <td>
-      <%=user.dif2rectime%>
+      <%=opponent.lose%>
+    </td>
+  </tr>
+  <tr>
+    <th>
+      Ties:
+    </th>
+    <td>
+      <%=opponent.tie%>
+    </td>
+  </tr>
+  <tr>
+    <th>
+      Win %:
+    </th>
+    <td>
+      <%=opponent.win_percent%>
     </td>
   </tr>
 </table>

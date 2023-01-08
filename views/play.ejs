@@ -1,10 +1,11 @@
-<%- include('partials/header', {title:"Play: P, R, S"}) -%>
+<%- include('partials/header', {title:"Play: Weirdle"}) -%>
 
-<p> Choose your opponent and make your guess!
+<p> Choose your opponent! Whoever clears the game first wins. <br>
+  *Note that the more you play with one opponent, the faster they get.
 
   <form action="/results" method="GET">
     <img title="" src="" id="opponentImage" />
-    <label for="opponent">Choose an opponent:</label>
+    <label for="opponent">I challenge:</label>
     <select id="opponent" name="opponent">
       <%for(player in data){%>
 
@@ -12,14 +13,8 @@
       <%}%>
     </select>
     <br><br>
-    <label for="throw">Choose an throw:</label>
-    <select id="throw" name="throw">
-      <option value="Paper">Paper</option>
-      <option value="Rock">Rock</option>
-      <option value="Scissors">Scissors</option>
-    </select>
-    <br><br>
-    <input type="submit" value="Submit your Throw!">
+    
+    <input type="submit" value="Start game!">
 
   </form>
 
