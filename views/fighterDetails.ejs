@@ -1,8 +1,8 @@
-<%- include('partials/header', {title:"Opponent Details- P, R, S"}) -%>
+<%- include('partials/header', {title:"Fighter Details- P, R, S"}) -%>
 
-<h2>Opponent - <%=opponent.name%></h2>
+<h2>fighter - <%=fighter.name%></h2>
 
-<img src="<%=opponent.photo%>" height=150 />
+<img src="<%=fighter.photo%>" height=150 />
 
 <table>
   <tr>
@@ -10,7 +10,7 @@
       Name:
     </th>
     <td>
-      <%=opponent.name%>
+      <%=fighter.name%>
     </td>
   </tr>
   <tr>
@@ -18,7 +18,7 @@
       Wins:
     </th>
     <td>
-      <%=opponent.win%>
+      <%=fighter.win%>
     </td>
   </tr>
   <tr>
@@ -26,7 +26,7 @@
       Losses:
     </th>
     <td>
-      <%=opponent.lose%>
+      <%=fighter.lose%>
     </td>
   </tr>
   <tr>
@@ -34,7 +34,7 @@
       Ties:
     </th>
     <td>
-      <%=opponent.tie%>
+      <%=fighter.tie%>
     </td>
   </tr>
   <tr>
@@ -42,7 +42,15 @@
       Win %:
     </th>
     <td>
-      <%=opponent.win_percent%>
+      <%=fighter.win_percent%>
+    </td>
+  </tr>
+  <tr>
+    <th>
+      Time:
+    </th>
+    <td>
+      <%=fighter.time%>
     </td>
   </tr>
 </table>

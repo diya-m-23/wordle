@@ -1,0 +1,15 @@
+<%- include('partials/header', {title:"Create Fighter"}) -%>
+
+<h2>Create a New Fighter!</h2>
+
+<form action="/fighterCreate" method="POST">
+  <label for="name">Name:</label>
+  <input type="text" id="name" name="fighterName" value=""><br>
+  <label for="photo">Link to Photo:</label>
+  <input type="text" id="photo" name="fighterPhoto" value=""><br>
+  <br><br>
+  <input type="submit" value="Create a new fighter!">
+
+</form>
+
+<%- include('partials/footer') -%>

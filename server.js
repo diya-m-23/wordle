@@ -23,22 +23,22 @@ app.get('/', function(request, response) {
 });
 
 app.get('/play', function(request, response) {
-    let users = JSON.parse(fs.readFileSync('data/users.json'));
+    let opponents = JSON.parse(fs.readFileSync('data/opponents.json'));
     response.status(200);
     response.setHeader('Content-Type', 'text/html')
     response.render("play", {
-      data: users
+      data: opponents
     });
 });
 
 app.get('/results', function(request, response) {
-    let users = JSON.parse(fs.readFileSync('data/opponents.json'));
+    let opponents = JSON.parse(fs.readFileSync('data/opponents.json'));
 
     //accessing URL query string information from the request object
-    let user = request.query.user;
+    let opponent = request.query.opponent;
     let playerThrow = request.query.throw;
 
-    if(users[user]){
+    if(opponents[opponent]){
       let opponentThrowChoices=["Paper", "Rock", "Scissors"];
       let results={};
 
