@@ -24,10 +24,12 @@ app.get('/', function(request, response) {
 
 app.get('/play', function(request, response) {
     let opponents = JSON.parse(fs.readFileSync('data/opponents.json'));
+    let fighters = JSON.parse(fs.readFileSync('data/fighters.json'));
     response.status(200);
     response.setHeader('Content-Type', 'text/html')
     response.render("play", {
-      data: opponents
+      data: opponents,
+      data: fighters
     });
 });
 
