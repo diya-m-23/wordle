@@ -51,6 +51,7 @@ app.get('/results', function(request, response) {
       results["opponentPhoto"]=opponents[opponent].photo;
       results["fighterName"]=fighter;
       results["fighterPhoto"]=fighters[fighter].photo;
+      results["fighterPhoto"]=fighters[fighter].time;
       results["opponentThrow"] = opponentThrowChoices[Math.floor(Math.random() * 3)];
 
       if(results["playerThrow"]===results["opponentThrow"]){
