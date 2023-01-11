@@ -164,6 +164,38 @@ app.post('/opponentCreate', function(request, response) {
     }
 });
 
+app.get('/fighterCreate', function(request, response) {
+    response.status(200);
+    response.setHeader('Content-Type', 'text/html')
+    response.render("fighterCreate");
+});
+
+app.post('/fighterCreate', function(request, response) {
+    let fighterName = request.body.fighterName;
+    let fighterPhoto = request.body.fighterPhoto;
+    if(fighterName&&fighterPhoto){
+      let fighter = JSON.parse(fs.readFileSync('data/fighter.json'));
+      let newFighter={
+        "name": fighterName,
+        "photo": fighterPhoto,
+        "win":0,
+        "lose": 0
+      }
+      fighter[fighterName] = newFighter;
+      fs.writeFileSync('data/fighters.json', JSON.stringify(fighters));
+
+      response.status(200);
+      response.setHeader('Content-Type', 'text/html')
+      response.redirect("/fighter/"+fighterName);
+    }else{
+      response.status(400);
+      response.setHeader('Content-Type', 'text/html')
+      response.render("error", {
+        "errorCode":"400"
+      });
+    }
+});
+
 // Because routes/middleware are applied in order,
 // this will act as a default error route in case of
 // a request fot an invalid route

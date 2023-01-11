@@ -33,11 +33,13 @@ app.get('/play', function(request, response) {
     });
 });
 
-app.get('/results', function(request, response) {
-    let opponents = JSON.parse(fs.readFileSync('data/opponents.json'));
 
+app.get('/results', function(request, response) {
+  let opponents = JSON.parse(fs.readFileSync('data/opponents.json'));
+  let fighters = JSON.parse(fs.readFileSync('data/fighters.json'));
     //accessing URL query string information from the request object
     let opponent = request.query.opponent;
+    let fighter = request.query.fighter;
     let playerThrow = request.query.throw;
 
     if(opponents[opponent]){
@@ -47,6 +49,8 @@ app.get('/results', function(request, response) {
       results["playerThrow"]=playerThrow;
       results["opponentName"]=opponent;
       results["opponentPhoto"]=opponents[opponent].photo;
+      results["fighterName"]=fighter;
+      results["fighterPhoto"]=fighters[fighter].photo;
       results["opponentThrow"] = opponentThrowChoices[Math.floor(Math.random() * 3)];
 
       if(results["playerThrow"]===results["opponentThrow"]){
@@ -68,6 +72,7 @@ app.get('/results', function(request, response) {
 
       //update opponents.json to permanently remember results
       fs.writeFileSync('data/opponents.json', JSON.stringify(opponents));
+      fs.writeFileSync('data/fighters.json', JSON.stringify(fighters));
 
       response.status(200);
       response.setHeader('Content-Type', 'text/html')
@@ -162,6 +167,37 @@ app.post('/opponentCreate', function(request, response) {
     }
 });
 
+app.get('/fighterCreate', function(request, response) {
+    response.status(200);
+    response.setHeader('Content-Type', 'text/html')
+    response.render("fighterCreate");
+});
+
+app.post('/fighterCreate', function(request, response) {
+    let fighterName = request.body.fighterName;
+    let fighterPhoto = request.body.fighterPhoto;
+    if(fighterName&&fighterPhoto){
+      let fighter = JSON.parse(fs.readFileSync('data/fighter.json'));
+      let newFighter={
+        "name": fighterName,
+        "photo": fighterPhoto,
+        "win":0,
+        "lose": 0
+      }
+      fighter[fighterName] = newFighter;
+      fs.writeFileSync('data/fighters.json', JSON.stringify(fighters));
+
+      response.status(200);
+      response.setHeader('Content-Type', 'text/html')
+      response.redirect("/fighter/"+fighterName);
+    }else{
+      response.status(400);
+      response.setHeader('Content-Type', 'text/html')
+      response.render("error", {
+        "errorCode":"400"
+      });
+    }
+});
 // Because routes/middleware are applied in order,
 // this will act as a default error route in case of
 // a request fot an invalid route
