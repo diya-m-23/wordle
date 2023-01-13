@@ -46,30 +46,30 @@ app.get('/results', function(request, response) {
       let opponentThrowChoices=["Paper", "Rock", "Scissors"];
       let results={};
 
-      results["playerThrow"]=playerThrow;
+      results["opponentGuess"]=opponentGuess;
       results["opponentName"]=opponent;
       results["opponentPhoto"]=opponents[opponent].photo;
+      results["opponentTime"]=gameTime;
       results["fighterName"]=fighter;
       results["fighterPhoto"]=fighters[fighter].photo;
-      results["fighterPhoto"]=fighters[fighter].time;
-      results["opponentThrow"] = opponentThrowChoices[Math.floor(Math.random() * 3)];
+      results["fighterTime"]=fighters[fighter].time;
+      results["chosenWord"] = chosenWord;
 
-      if(results["playerThrow"]===results["opponentThrow"]){
-        results["outcome"] = "tie";
-      }else if(results["playerThrow"]==="Paper"){
-        if(results["opponentThrow"]=="Scissors") results["outcome"] = "lose";
-        else results["outcome"] = "win";
-      }else if(results["playerThrow"]==="Scissors"){
-        if(results["opponentThrow"]=="Rock") results["outcome"] = "lose";
-        else results["outcome"] = "win";
+      if(results["opponentTime"]<=results["fighterTime"]){
+      if(results["opponentGuess"]===results["chosenWord"]){
+        results["outcome"] = "win";
+      }else if(results["opponentGuess"]!=results["chosenWord"]){
+        results["outcome"] = "lose";
+      }
       }else{
-        if(results["opponentThrow"]=="Paper") results["outcome"] = "lose";
-        else results["outcome"] = "win";
+        else results["outcome"] = "lose";
       }
 
-      if(results["outcome"]=="lose") opponents[opponent]["win"]++;
-      else if(results["outcome"]=="win") opponents[opponent]["lose"]++;
-      else opponents[opponent]["tie"]++;
+      if(results["outcome"]=="win"){
+        opponents[opponent]["win"]++;
+        fighters[fighter]["time"]++;
+      }
+      else opponents[opponent]["lose"]++;
 
       //update opponents.json to permanently remember results
       fs.writeFileSync('data/opponents.json', JSON.stringify(opponents));
@@ -91,7 +91,9 @@ app.get('/results', function(request, response) {
 
 app.get('/scores', function(request, response) {
   let opponents = JSON.parse(fs.readFileSync('data/opponents.json'));
+  let fighters = JSON.parse(fs.readFileSync('data/fighter.json'));
   let opponentArray=[];
+  let fighterArray=[];
 
   //create an array to use sort, and dynamically generate win percent
   for(name in opponents){
@@ -102,11 +104,21 @@ app.get('/scores', function(request, response) {
   opponentArray.sort(function(a, b){
     return parseFloat(b.win_percent)-parseFloat(a.win_percent);
   })
+  //create an array to use sort, and dynamically generate win percent
+  for(name in fighters){
+    fighters[name].currentTime = (fighters[name].time - 5);
+    if(fighters[name].currentTime=="NaN") fighters[name].currentTime=0;
+    fighterArray.push(fighters[name])
+  }
+  fighterArray.sort(function(a, b){
+    return parseFloat(b.currentTime)-parseFloat(a.currentTime);
+  })
 
   response.status(200);
   response.setHeader('Content-Type', 'text/html')
   response.render("scores",{
-    opponents: opponentArray
+    opponents: opponentArray,
+    fighters: fighterArray,
   });
 });
 
