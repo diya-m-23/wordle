@@ -5,15 +5,22 @@
 
   <form action="/results" method="GET">
     <img title="" src="" id="opponentImage" />
-    <label for="opponent">I challenge:</label>
+    <label for="opponent">I am:</label>
     <select id="opponent" name="opponent">
       <%for(player in data){%>
 
       <option value="<%=player%>"><%=player%></option>
       <%}%>
     </select>
+    <img title="" src="" id="fighterImage" />
+    <label for="fighter">I challenge:</label>
+    <select id="fighter" name="fighter">
+      <%for(player in data){%>
+
+      <option value="<%=player%>"><%=player%></option>
+      <%}%>
+    </select>
     <br><br>
-    
     <input type="submit" value="Start game!">
 
   </form>
