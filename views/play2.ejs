@@ -1,6 +1,7 @@
 <%- include('partials/header', {title:"Results: P, R, S"}) -%>
 
 <img src="<%=data.opponentPhoto%>" height=150 />
+<script src="tracker.js" type="text/javascript"></script>
 <p> You are playing as <%=data.opponentName%><p>
 <p>You have <%=data.fighterTime%> seconds to beat <%=data.fighterName%></p>
 
@@ -16,6 +17,8 @@
      wordlist.push(name);
     }
   <% }); %>
+  console.log(wordlist);
+
 
       let currentRow = 0;
       let nextRowBlock = 0;
@@ -58,6 +61,7 @@
       score = 0;
       remNotification = 0;
       let chosenWord = "<%= chosenWordServer %>";
+      console.log(chosenWord);
 
        let navBar = document.createElement('div');
       navBar.className = 'nav_bar';
@@ -68,7 +72,7 @@
         if(gameFin == 0){
           notification.innerText = 'The word was ' + chosenWord + '. Press Enter to play again';
           gameOver();
-        }
+        } console.log("checkpt 1");
       });
       navBar.append(giveUpBtn);
       container.append(navBar);
@@ -119,6 +123,7 @@
           let wordRow = document.getElementsByClassName('row')[currentRow];
           let rowBlockEl = wordRow.childNodes;
           deleteLetter(rowBlockEl);
+          console.log("checkpt 2");
         }
       });
       botKeys.append(deleteKey);
@@ -145,6 +150,7 @@
         let rowBlockEl = wordRow.childNodes;
         for(i = 0; i < alphabet.length; i++){
           if ((event.key === alphabet[i] || event.key === alphabet[i].toUpperCase())) {
+            console.log('checkpt3');
             addLetter(rowBlockEl, alphabet[i]);
           }
         }
@@ -162,6 +168,7 @@
       if(nextRowBlock > 0){
       nextRowBlock--;
       rowBlockEl[nextRowBlock].innerText = '';
+      console.log('checkpt4');
       }
       }
 
@@ -170,12 +177,14 @@
       }
 
       function submitWord(wordRow, keyPress){
+      let chosenWord = "<%= chosenWordServer %>";
       if(nextRowBlock > 0 && nextRowBlock % 5 == 0){
       let word = wordRow.innerText.replace(/[\n\r]/g, '');
       if(wordlist.includes(word)){
         let answer = [];
         for(i = 0; i < word.length; i++){
           let letter = word[i].toUpperCase();
+          console.log("cw: " + chosenWord);
           answer.push(letter);
           let blockClass = 'blockGrey';
           if(chosenWord.toUpperCase().includes(letter)){
