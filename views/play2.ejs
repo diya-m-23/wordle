@@ -9,6 +9,7 @@
 <script>
 
   let wordlist = [];
+  let chosenWord;
 
   console.log("hello!");
 
@@ -16,8 +17,13 @@
   <% dataset.forEach(function(set) { %>
    {
           let name = "<%= set.name %>";
-          console.log("name: " + name);
+          let chosenWordScoped = "<%= set.chosenWord %>";
+          let testy = "<%= set.lost %>";
+          console.log("test: " + testy);
+          //console.log("name: " + name);
           wordlist.push(name);
+          //let chosenWord = chosenWordScoped;
+          //console.log('realChosenWord: ' + chosenWord);
     }
 
       <% }); %>
@@ -64,7 +70,10 @@
       score = 0;
       remNotification = 0;
       let rand = Math.floor(Math.random() * wordlist.length);
-      chosenWord = wordlist[rand];
+      //let chosenWord = <%= dataset.chosenWord %>
+      //console.log("word: " + chosenWord);
+      let chosenWord  = wordlist[1];
+      console.log('chosenWord: ' + chosenWord);
 
 
 
@@ -227,6 +236,18 @@
         }
         else if(currentRow == 5){
           notification.innerText = 'You lost. The word was ' + chosenWord + '. Press Enter to play again';
+            <% dataset.forEach(function(set) { %>
+             {
+                    let name = "<%= set.name %>";
+                    if (chosenWord == name) {
+                      <%= set.lost++ %>;
+                      console.log("loses: " + <%= set.lost++ %>);
+                      console.log("chosenWord: " + chosenWord);
+                    }
+
+
+              }
+                <% }); %>
           gameOver();
         }
         else{
@@ -272,6 +293,20 @@
       nextRowBlock++;
       }
       }
+
+      <% dataset.forEach(function(set) { %>
+       {
+              let name = "<%= set.name %>";
+              let chosenWordScoped = "<%= set.chosenWord %>";
+              let testy = "<%= set.lost %>";
+              console.log("test: " + testy);
+              //console.log("name: " + name);
+              wordlist.push(name);
+              //let chosenWord = chosenWordScoped;
+              //console.log('realChosenWord: ' + chosenWord);
+        }
+
+          <% }); %>
 
 </script>
 

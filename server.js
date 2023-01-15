@@ -41,8 +41,37 @@ app.get('/play2', function(request, response) {
   let fighters = JSON.parse(fs.readFileSync('data/fighters.json'));
     //accessing URL query string information from the request object
     let opponent = request.query.opponent;
+    let word = request.query.word;
     let fighter = request.query.fighter;
     let playerThrow = request.query.throw;
+
+    if(words[word]) {
+      let wordlist={};
+      wordlist["wordLost"]=words[word].lost;
+      let rand = Math.floor(Math.random() * words.length);
+      wordlist["chosenWord"] = words[rand]; //change 1 to rand
+
+      // we want to increment loss count, but only if they actually lost
+      // they actually lost if
+
+        words[word]["lost"]++;
+      //update opponents.json to permanently remember results
+      fs.writeFileSync('data/opponents.json', JSON.stringify(opponents));
+      fs.writeFileSync('data/words.json', JSON.stringify(words));
+      fs.writeFileSync('data/fighters.json', JSON.stringify(fighters));
+
+      response.status(200);
+      response.setHeader('Content-Type', 'text/html')
+      response.render("play2", {
+        data: results,
+        dataset: wordlist
+
+      });
+
+      fs.writeFileSync('data/words.json', JSON.stringify(words));
+      words[word]["lost"]++;
+    }
+
 
     if(opponents[opponent]){
       //let opponentThrowChoices=["Paper", "Rock", "Scissors"];
@@ -75,8 +104,11 @@ app.get('/play2', function(request, response) {
 */
       //results["words"] = words;
       results["blah"] = "blahblah";
+
+
       //update opponents.json to permanently remember results
       fs.writeFileSync('data/opponents.json', JSON.stringify(opponents));
+      fs.writeFileSync('data/words.json', JSON.stringify(words));
       fs.writeFileSync('data/fighters.json', JSON.stringify(fighters));
 
       response.status(200);
@@ -134,6 +166,7 @@ app.get('/results', function(request, response) {
 
       //update opponents.json to permanently remember results
       fs.writeFileSync('data/opponents.json', JSON.stringify(opponents));
+      fs.writeFileSync('data/words.json', JSON.stringify(words));
       fs.writeFileSync('data/fighters.json', JSON.stringify(fighters));
 
       response.status(200);
