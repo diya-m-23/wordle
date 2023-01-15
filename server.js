@@ -83,7 +83,7 @@ app.get('/play2', function(request, response) {
       response.setHeader('Content-Type', 'text/html')
       response.render("play2", {
         data: results,
-        mascots: words
+        dataset: words
       });
     }else{
       response.status(404);
