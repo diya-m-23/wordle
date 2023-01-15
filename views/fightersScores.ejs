@@ -1,0 +1,43 @@
+<%- include('partials/header', {title:"Weirdle: Player Leaderboard"}) -%>
+
+<h2>My Players</h2>
+<table>
+  <tr>
+    <th>
+      Name
+    </th>
+    <th>
+      Wins
+    </th>
+    <th>
+      Losses
+    </th>
+    <th>
+      Win %
+    </th>
+    <th>
+      Time
+    </th>
+  </tr>
+  <%for(let i =0; i<fighters.length; i++){%>
+  <tr>
+  <th>
+    <a href="/fighter/<%=fighters[i].name%>"><%=fighters[i].name%></a>
+  </th>
+  <th>
+    <%=fighters[i].win%>
+  </th>
+  <th>
+    <%=fighters[i].lose%>
+  </th>
+  <th>
+    <%=fighters[i].win_percent%>
+  </th>
+  <th>
+    <%=fighters[i].time%>
+  </th>
+  </tr>
+  <%}%>
+</table>
+
+  <%- include('partials/footer') -%>
