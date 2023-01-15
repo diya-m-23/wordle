@@ -116,6 +116,8 @@ app.get('/play2', function(request, response) {
       }
       else opponents[opponent]["lose"]++; */
 
+      setInterval(timer, 1000);
+      
       //update opponents.json to permanently remember results
       fs.writeFileSync('data/opponents.json', JSON.stringify(opponents));
       fs.writeFileSync('data/words.json', JSON.stringify(words));
@@ -135,7 +137,7 @@ app.get('/play2', function(request, response) {
         "errorCode":"404"
       });
     }
-    setInterval(timer, 1000);
+
 });
 
 app.get('/results', function(request, response) {
