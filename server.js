@@ -24,13 +24,74 @@ app.get('/', function(request, response) {
 
 app.get('/play', function(request, response) {
     let opponents = JSON.parse(fs.readFileSync('data/opponents.json'));
+    let words = JSON.parse(fs.readFileSync('data/words.json'));
     let fighters = JSON.parse(fs.readFileSync('data/fighters.json'));
     response.status(200);
     response.setHeader('Content-Type', 'text/html')
     response.render("play", {
       data: opponents,
-      data: fighters
+      dataW: words,
+      dataF: fighters
     });
+});
+
+app.get('/play2', function(request, response) {
+  let opponents = JSON.parse(fs.readFileSync('data/opponents.json'));
+  let words = JSON.parse(fs.readFileSync('data/words.json'));
+  let fighters = JSON.parse(fs.readFileSync('data/fighters.json'));
+    //accessing URL query string information from the request object
+    let opponent = request.query.opponent;
+    let fighter = request.query.fighter;
+    let playerThrow = request.query.throw;
+
+    if(opponents[opponent]){
+      //let opponentThrowChoices=["Paper", "Rock", "Scissors"];
+      let results={};
+
+      //results["opponentGuess"]=opponentGuess;
+      results["opponentName"]=opponent;
+      results["opponentPhoto"]=opponents[opponent].photo;
+      //results["opponentTime"]=gameTime;
+      results["fighterName"]=fighter;
+      //results["fighterPhoto"]=fighters[fighter].photo;
+      results["fighterTime"]=fighters[fighter].time;
+      //results["chosenWord"] = chosenWord;
+/*
+      if(results["opponentTime"]<=results["fighterTime"]){
+      if(results["opponentGuess"]===results["chosenWord"]){
+        results["outcome"] = "win";
+      }else if(results["opponentGuess"]!=results["chosenWord"]){
+        results["outcome"] = "lose";
+      }
+      }else{
+        results["outcome"] = "lose";
+      }
+
+      if(results["outcome"]=="win"){
+        opponents[opponent]["win"]++;
+        fighters[fighter]["time"]++;
+      }
+      else opponents[opponent]["lose"]++;
+*/
+      //results["words"] = words;
+      results["blah"] = "blahblah";
+      //update opponents.json to permanently remember results
+      fs.writeFileSync('data/opponents.json', JSON.stringify(opponents));
+      fs.writeFileSync('data/fighters.json', JSON.stringify(fighters));
+
+      response.status(200);
+      response.setHeader('Content-Type', 'text/html')
+      response.render("play2", {
+        data: results,
+        mascots: words
+      });
+    }else{
+      response.status(404);
+      response.setHeader('Content-Type', 'text/html')
+      response.render("error", {
+        "errorCode":"404"
+      });
+    }
 });
 
 
@@ -62,7 +123,7 @@ app.get('/results', function(request, response) {
         results["outcome"] = "lose";
       }
       }else{
-        else results["outcome"] = "lose";
+        results["outcome"] = "lose";
       }
 
       if(results["outcome"]=="win"){
