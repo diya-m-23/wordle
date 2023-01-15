@@ -1,9 +1,8 @@
 <%- include('partials/header', {title:"Results: P, R, S"}) -%>
 
 <img src="<%=data.opponentPhoto%>" height=150 />
-<p><%=data.opponentName%><p>
-<p><%=data.fighterName%><p>
-<p>You have <%=data.fighterTime%> seconds to beat</p>
+<p> You are playing as <%=data.opponentName%><p>
+<p>You have <%=data.fighterTime%> seconds to beat <%=data.fighterName%></p>
 
 
 <script>
@@ -11,23 +10,12 @@
   let wordlist = [];
   let chosenWord;
 
-  console.log("hello!");
-
-
   <% dataset.forEach(function(set) { %>
    {
-          let name = "<%= set.name %>";
-          let chosenWordScoped = "<%= set.chosenWord %>";
-          let testy = "<%= set.lost %>";
-          console.log("test: " + testy);
-          //console.log("name: " + name);
-          wordlist.push(name);
-          //let chosenWord = chosenWordScoped;
-          //console.log('realChosenWord: ' + chosenWord);
+     let name = "<%= set.name %>";
+     wordlist.push(name);
     }
-
-      <% }); %>
-      console.log("wordlist: " + wordlist);
+  <% }); %>
 
       let currentRow = 0;
       let nextRowBlock = 0;
@@ -69,13 +57,7 @@
       nextRowBlock = 0;
       score = 0;
       remNotification = 0;
-      let rand = Math.floor(Math.random() * wordlist.length);
-      //let chosenWord = <%= dataset.chosenWord %>
-      //console.log("word: " + chosenWord);
-      let chosenWord  = wordlist[1];
-      console.log('chosenWord: ' + chosenWord);
-
-
+      let chosenWord = "<%= chosenWordServer %>";
 
        let navBar = document.createElement('div');
       navBar.className = 'nav_bar';
@@ -236,18 +218,6 @@
         }
         else if(currentRow == 5){
           notification.innerText = 'You lost. The word was ' + chosenWord + '. Press Enter to play again';
-            <% dataset.forEach(function(set) { %>
-             {
-                    let name = "<%= set.name %>";
-                    if (chosenWord == name) {
-                      <%= set.lost++ %>;
-                      console.log("loses: " + <%= set.lost++ %>);
-                      console.log("chosenWord: " + chosenWord);
-                    }
-
-
-              }
-                <% }); %>
           gameOver();
         }
         else{
@@ -293,20 +263,6 @@
       nextRowBlock++;
       }
       }
-
-      <% dataset.forEach(function(set) { %>
-       {
-              let name = "<%= set.name %>";
-              let chosenWordScoped = "<%= set.chosenWord %>";
-              let testy = "<%= set.lost %>";
-              console.log("test: " + testy);
-              //console.log("name: " + name);
-              wordlist.push(name);
-              //let chosenWord = chosenWordScoped;
-              //console.log('realChosenWord: ' + chosenWord);
-        }
-
-          <% }); %>
 
 </script>
 

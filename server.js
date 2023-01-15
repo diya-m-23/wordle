@@ -37,59 +37,73 @@ app.get('/play', function(request, response) {
 
 app.get('/play2', function(request, response) {
   let opponents = JSON.parse(fs.readFileSync('data/opponents.json'));
-  let words = JSON.parse(fs.readFileSync('data/words.json'));
   let fighters = JSON.parse(fs.readFileSync('data/fighters.json'));
+  let words = JSON.parse(fs.readFileSync('data/words.json'));
+  let chosenWord;
+  let gameTime = 0;
+
     //accessing URL query string information from the request object
     let opponent = request.query.opponent;
     let word = request.query.word;
     let fighter = request.query.fighter;
     let playerThrow = request.query.throw;
 
-    if(words[word]) {
-      let wordlist={};
-      wordlist["wordLost"]=words[word].lost;
-      let rand = Math.floor(Math.random() * words.length);
-      wordlist["chosenWord"] = words[rand]; //change 1 to rand
-
-      // we want to increment loss count, but only if they actually lost
-      // they actually lost if
-
-        words[word]["lost"]++;
-      //update opponents.json to permanently remember results
-      fs.writeFileSync('data/opponents.json', JSON.stringify(opponents));
-      fs.writeFileSync('data/words.json', JSON.stringify(words));
-      fs.writeFileSync('data/fighters.json', JSON.stringify(fighters));
-
-      response.status(200);
-      response.setHeader('Content-Type', 'text/html')
-      response.render("play2", {
-        data: results,
-        dataset: wordlist
-
+    if(opponents[opponent] || words[word] || fighters[fighter]){
+      let wordlist = [];
+      words.forEach(function(word){
+        wordlist.push(word.name);
       });
 
-      fs.writeFileSync('data/words.json', JSON.stringify(words));
-      words[word]["lost"]++;
-    }
+      let rand = Math.floor(Math.random() * wordlist.length);
+      let chosenWord  = wordlist[rand];
+      //console.log("server wordlist: " + wordlist);
+      //console.log("server.js chosenWord: " + chosenWord);
 
+      words.forEach(function(word){
+        if (chosenWord == word.name) {
+          word.chosenWordCount++;
+        } else if (chosenWord !== word.name){
+          word.notChosenWord++;
+        }
+        word.chosen_percent = Math.floor(100*(word.chosenWordCount)/(word.chosenWordCount +  word.notChosenWord));
+        console.log(word.chosen_percent);
+      });
 
-    if(opponents[opponent]){
-      //let opponentThrowChoices=["Paper", "Rock", "Scissors"];
+      function lose(){ //opponents meaning users
+        opponents[opponent].lose++;
+        fighters[fighter].win++;
+      }
+
+      function win(){ //opponents meaning users
+        opponents[opponent].win++;
+        fighters[fighter].lose++;
+      }
+
+      function timer(){
+        gameTime++;
+        if (gameTime == fighters[fighter].time){
+          lose();
+          //console.log("Lost! time = " + gameTime + ", fighterTime = " + fighters[fighter].time);
+        }
+      }
+
       let results={};
 
-      //results["opponentGuess"]=opponentGuess;
       results["opponentName"]=opponent;
       results["opponentPhoto"]=opponents[opponent].photo;
-      //results["opponentTime"]=gameTime;
+    //  results["opponentTime"]= gameTime;
       results["fighterName"]=fighter;
-      //results["fighterPhoto"]=fighters[fighter].photo;
+      results["fighterPhoto"]=fighters[fighter].photo;
       results["fighterTime"]=fighters[fighter].time;
-      //results["chosenWord"] = chosenWord;
-/*
-      if(results["opponentTime"]<=results["fighterTime"]){
+      results["chosenWord"]=chosenWord;
+      results["chosenWordCount"]=chosenWord.chosenWordCount;
+
+
+      /*if(results["opponentTime"]<=results["fighterTime"]){
       if(results["opponentGuess"]===results["chosenWord"]){
         results["outcome"] = "win";
-      }else if(results["opponentGuess"]!=results["chosenWord"]){
+      }
+      else if(results["opponentGuess"]!=results["chosenWord"]){
         results["outcome"] = "lose";
       }
       }else{
@@ -100,11 +114,7 @@ app.get('/play2', function(request, response) {
         opponents[opponent]["win"]++;
         fighters[fighter]["time"]++;
       }
-      else opponents[opponent]["lose"]++;
-*/
-      //results["words"] = words;
-      results["blah"] = "blahblah";
-
+      else opponents[opponent]["lose"]++; */
 
       //update opponents.json to permanently remember results
       fs.writeFileSync('data/opponents.json', JSON.stringify(opponents));
@@ -115,7 +125,8 @@ app.get('/play2', function(request, response) {
       response.setHeader('Content-Type', 'text/html')
       response.render("play2", {
         data: results,
-        dataset: words
+        dataset: words,
+        chosenWordServer : chosenWord
       });
     }else{
       response.status(404);
@@ -124,8 +135,8 @@ app.get('/play2', function(request, response) {
         "errorCode":"404"
       });
     }
+    setInterval(timer, 1000);
 });
-
 
 app.get('/results', function(request, response) {
   let opponents = JSON.parse(fs.readFileSync('data/opponents.json'));
@@ -142,13 +153,13 @@ app.get('/results', function(request, response) {
       results["opponentGuess"]=opponentGuess;
       results["opponentName"]=opponent;
       results["opponentPhoto"]=opponents[opponent].photo;
-      results["opponentTime"]=gameTime;
+      //results["opponentTime"]=gameTime;
       results["fighterName"]=fighter;
       results["fighterPhoto"]=fighters[fighter].photo;
       results["fighterTime"]=fighters[fighter].time;
       results["chosenWord"] = chosenWord;
 
-      if(results["opponentTime"]<=results["fighterTime"]){
+      /*if(results["opponentTime"]<=results["fighterTime"]){
       if(results["opponentGuess"]===results["chosenWord"]){
         results["outcome"] = "win";
       }else if(results["opponentGuess"]!=results["chosenWord"]){
@@ -162,7 +173,7 @@ app.get('/results', function(request, response) {
         opponents[opponent]["win"]++;
         fighters[fighter]["time"]++;
       }
-      else opponents[opponent]["lose"]++;
+      else opponents[opponent]["lose"]++; */
 
       //update opponents.json to permanently remember results
       fs.writeFileSync('data/opponents.json', JSON.stringify(opponents));
