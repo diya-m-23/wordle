@@ -259,7 +259,6 @@ app.get('/word/:wordName', function(request, response) {
     });
   }
 });
-
     app.get('/user/:userName', function(request, response) {
       let users = JSON.parse(fs.readFileSync('data/users.json'));
 
