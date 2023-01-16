@@ -38,10 +38,17 @@ app.get('/play', function(request, response) {
     });
 });
 
-app.get('/result', function(request, response) {
-      response.status(200);
+app.get('/win', function(request, response) {
+  response.status(200);
       response.setHeader('Content-Type', 'text/html')
-      response.render("result", {
+      response.render("win", {
+      });
+});
+
+app.get('/lose', function(request, response) {
+  response.status(200);
+      response.setHeader('Content-Type', 'text/html')
+      response.render("lose", {
       });
 });
 
@@ -148,7 +155,7 @@ app.get('/usersScores', function(request, response) {
 
   //create an array to use sort, and dynamically generate win percent
   for(name in users){
-    users[name].win_percent = (users[name].win/parseFloat(users[name].win+users[name].lose+users[name].tie) * 100).toFixed(2);
+    users[name].win_percent = (users[name].win/parseFloat(users[name].win+users[name].lose) * 100).toFixed(2);
     if(users[name].win_percent=="NaN") users[name].win_percent=0;
     userArray.push(users[name])
   }

@@ -13,15 +13,16 @@
 <p> You are playing as <%=data.userName%>, you have <%=data.fighterTime%> seconds to beat <%=data.fighterName%> <p>
 <p>Word bank: Acrid, Break, Cacao, Deals, Epoxy, Flail, Gloat, Heart, Icing, Juice, Knick, Laugh, Mound, Olden, Plain, Query, Right, Speak, Truth, Users, Vines, Wilts, Xerox, Yolks, Zebra</p>
 
-<div align="center"><form action="/result" method="GET">
+<div align="center"><form action="/win" method="GET">
   <input type="submit" value="Click me if you win!">
+</form></div>
+<div align="center"><form action="/lose" method="GET">
+  <input type="submit" value="Click me if you lose!">
 </form></div>
 
 <script>
-
   let wordlist = [];
   let chosenWord;
-
   <% dataset.forEach(function(set) { %>
    {
      let name = "<%= set.name %>";
@@ -231,10 +232,16 @@
         if(score === 5){
           notification.innerText = 'Well done, you won!';
           gameOver();
+          var stringData = "some string data";
+          var jsonData = JSON.stringify({data: stringData});
+          localStorage.setItem("jsonData", jsonData);
         }
         else if(currentRow == 5){
           notification.innerText = 'You lost. The word was ' + chosenWord;
           gameOver();
+          var stringData = "some string data";
+          var jsonData = JSON.stringify({data: stringData});
+          localStorage.setItem("jsonData", jsonData);
         }
         else{
           score = 0;
