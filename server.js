@@ -81,8 +81,8 @@ app.get('/play2', function(request, response) {
         } else if (chosenWord !== word.name){
           word.notChosenWord++;
         }
-        word.chosen_percent = Math.floor(100*(word.chosenWordCount)/(word.chosenWordCount +  word.notChosenWord));
-        console.log(word.chosen_percent);
+        word.chosen_percent = (100*(word.chosenWordCount)/(word.chosenWordCount +  word.notChosenWord)).toFixed(2);
+        console.log("percent: " + word.chosen_percent);
       });
 
       function lose(){
