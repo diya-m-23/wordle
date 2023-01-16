@@ -38,10 +38,30 @@ app.get('/play', function(request, response) {
     });
 });
 
-app.get('/result', function(request, response) {
+app.get('/win', function(request, response) {
+let win = JSON.parse(fs.readFileSync('data/win.json'));
+let wins=[];
+for(data in wins){
+wins[data].win ++;
+}
+fs.writeFileSync('data/win.json', JSON.stringify(win));
       response.status(200);
       response.setHeader('Content-Type', 'text/html')
-      response.render("result", {
+      response.render("win", {
+        data: wins,
+      });
+});
+app.get('/lose', function(request, response) {
+    let lose = JSON.parse(fs.readFileSync('data/lose.json'));
+    let loses=[];
+    for(data in loses){
+    loses[data].lose ++;
+    }
+    fs.writeFileSync('data/lose.json', JSON.stringify(lose));
+      response.status(200);
+      response.setHeader('Content-Type', 'text/html')
+      response.render("lose", {
+        data: loses,
       });
 });
 
@@ -94,12 +114,17 @@ app.get('/play2', function(request, response) {
 
       function timer(){
         gameTime++;
-        if (gameTime < fighters[fighter].time&*win==true){
+        if (gameTime < fighters[fighter].time){
         }
         else {
           lose();
           clearInterval(interval);
         }
+
+        if (gameTime > fighters[fighter].time && win === true) {
+          win();
+        }
+      }
 
       let results={};
 
