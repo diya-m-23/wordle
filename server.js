@@ -235,20 +235,21 @@ app.get('/user/:userName', function(request, response) {
   }
 });
 
-app.get('/word/:wordName', function(request, response) {
-  let words = JSON.parse(fs.readFileSync('data/words.json'));
+
+app.get('/fighter/:fighterName', function(request, response) {
+  let fighters = JSON.parse(fs.readFileSync('data/fighters.json'));
 
   // using dynamic routes to specify resource request information
-  let wordName = request.params.wordName;
+  let fighterName = request.params.fighterName;
 
-  if(words[wordName]){
-    words[wordName].chosen_percent = (words[wordName].chosenWordCount/parseFloat(words[wordName].chosenWordCount+words[wordName].notChosenWord) * 100).toFixed(2);
-    if(words[wordName].chosen_percent=="NaN") words[wordName].chosen_percent=0;
+  if(fighters[fighterName]){
+    fighters[fighterName].win_percent = (fighters[fighterName].win/parseFloat(fighters[fighterName].win+fighters[fighterName].lose) * 100).toFixed(2);
+    if(fighters[fighterName].win_percent=="NaN") fighters[fighterName].win_percent=0;
 
     response.status(200);
     response.setHeader('Content-Type', 'text/html')
-    response.render("wordDetails",{
-      word: words[wordName]
+    response.render("fighterDetails",{
+      fighter: fighters[fighterName]
     });
 
   }else{
@@ -259,30 +260,7 @@ app.get('/word/:wordName', function(request, response) {
     });
   }
 });
-    app.get('/user/:userName', function(request, response) {
-      let users = JSON.parse(fs.readFileSync('data/users.json'));
 
-      // using dynamic routes to specify resource request information
-      let userName = request.params.userName;
-
-      if(users[userName]){
-        users[userName].win_percent = (users[userName].win/parseFloat(users[userName].win+users[userName].lose) * 100).toFixed(2);
-        if(users[userName].win_percent=="NaN") users[userName].win_percent=0;
-
-        response.status(200);
-        response.setHeader('Content-Type', 'text/html')
-        response.render("userDetails",{
-          user: users[userName]
-        });
-
-  }else{
-    response.status(404);
-    response.setHeader('Content-Type', 'text/html')
-    response.render("error", {
-      "errorCode":"404"
-    });
-  }
-});
 
 app.get('/userCreate', function(request, response) {
     response.status(200);
