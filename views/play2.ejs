@@ -1,10 +1,13 @@
+
 <%- include('partials/header', {title:"Results: P, R, S"}) -%>
 
 <img src="<%=data.opponentPhoto%>" height=150 />
-<script src="tracker.js" type="text/javascript"></script>
 <p> You are playing as <%=data.opponentName%><p>
 <p>You have <%=data.fighterTime%> seconds to beat <%=data.fighterName%></p>
 
+<div align="center"><form action="/result" method="GET">
+  <input type="submit" value="Click me if you win!">
+</form></div>
 
 <script>
 

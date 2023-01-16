@@ -16,6 +16,9 @@ app.set('view engine', 'ejs'); //specify templating library
 //.............Define server routes..............................//
 //Express checks routes in the order in which they are defined
 
+let lost;
+console.log(lost);
+
 app.get('/', function(request, response) {
   response.status(200);
   response.setHeader('Content-Type', 'text/html')
@@ -35,11 +38,20 @@ app.get('/play', function(request, response) {
     });
 });
 
+app.get('/result', function(request, response) {
+      response.status(200);
+      response.setHeader('Content-Type', 'text/html')
+      response.render("result", {
+      });
+});
+
 app.get('/play2', function(request, response) {
   let opponents = JSON.parse(fs.readFileSync('data/opponents.json'));
   let fighters = JSON.parse(fs.readFileSync('data/fighters.json'));
   let words = JSON.parse(fs.readFileSync('data/words.json'));
   let chosenWord;
+  let win = true;
+  let lose = false;
   let gameTime = 0;
 
     //accessing URL query string information from the request object
@@ -71,13 +83,18 @@ app.get('/play2', function(request, response) {
       function lose(){ //opponents meaning users
         opponents[opponent].lose++;
         fighters[fighter].win++;
+        let win = false;
+        console.log("loser!");
       }
 
       function win(){ //opponents meaning users
         opponents[opponent].win++;
         fighters[fighter].lose++;
         fighters[fighter].time--;
+        console.log("you won!");
       }
+
+      let interval = 0;
 
       function timer(){
         gameTime++;
@@ -85,10 +102,15 @@ app.get('/play2', function(request, response) {
           //if (chosenWord==guessWord){
           //win();
           //}
+
         }
         else {
-          //
           lose();
+          clearInterval(interval);
+        }
+
+        if (gameTime > fighters[fighter].time && win === true) {
+          win();
         }
       }
 
@@ -121,8 +143,11 @@ app.get('/play2', function(request, response) {
       }
       else opponents[opponent]["lose"]++; */
 
-      setInterval(timer, 1000);
-      
+      interval = setInterval(timer, 1000);
+
+      //if time is greater than fighter time and win is not false; then you win!
+
+
       //update opponents.json to permanently remember results
       fs.writeFileSync('data/opponents.json', JSON.stringify(opponents));
       fs.writeFileSync('data/words.json', JSON.stringify(words));
@@ -144,6 +169,7 @@ app.get('/play2', function(request, response) {
     }
 
 });
+
 
 app.get('/opponentsScores', function(request, response) {
   let opponents = JSON.parse(fs.readFileSync('data/opponents.json'));
