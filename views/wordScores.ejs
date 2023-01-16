@@ -1,0 +1,37 @@
+<%- include('partials/header', {title:"User Leaderboard"}) -%>
+
+<h2 style="text-align:center">Words</h2>
+<table>
+  <tr>
+    <th>
+      Word
+    </th>
+    <th>
+      # of times it's been the answer
+    </th>
+    <th>
+      # of times it's been missed
+    </th>
+    <th>
+      Win %
+    </th>
+  </tr>
+  <%for(let i =0; i<words.length; i++){%>
+  <tr>
+  <th>
+    <a><%=words[i].name%>"><%=words[i].name%></a>
+  </th>
+  <th>
+    <%=words[i].chosenWordCount%>
+  </th>
+  <th>
+    <%=words[i].notChosenWord%>
+  </th>
+  <th>
+    <%=words[i].chosen_percent = (words[i].chosenWordCount/parseFloat(words[i].chosenWordCount+words[i].notChosenWord) * 100).toFixed(2) + '%';%>
+  </th>
+  </tr>
+  <%}%>
+</table>
+
+  <%- include('partials/footer') -%>

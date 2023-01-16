@@ -190,6 +190,26 @@ app.get('/fightersScores', function(request, response) {
   });
 });
 
+app.get('/wordsScores', function(request, response) {
+  let words = JSON.parse(fs.readFileSync('data/words.json'));
+  let wordsArray=[];
+
+  for(name in words){
+    words[name].chosen_percent = (words[name].chosenWordCount/parseFloat(words[name].chosenWordCount+words[name].notChosenWord) * 100).toFixed(2);
+    if(words[name].chosen_percent=="NaN") words[name].chosen_percent=0;
+    wordsArray.push(words[name])
+  }
+  wordsArray.sort(function(a, b){
+    return parseFloat(b.chosen_percent)-parseFloat(a.chosen_percent);
+  })
+
+  response.status(200);
+  response.setHeader('Content-Type', 'text/html')
+  response.render("wordScores",{
+    words: wordsArray,
+  });
+});
+
 app.get('/user/:userName', function(request, response) {
   let users = JSON.parse(fs.readFileSync('data/users.json'));
 
