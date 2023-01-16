@@ -1,6 +1,6 @@
-<%- include('partials/header', {title:"Fighter Details- P, R, S"}) -%>
+<%- include('partials/header', {title:"Fighter Details"}) -%>
 
-<h2>fighter - <%=fighter.name%></h2>
+<h2>Fighter: <%=fighter.name%></h2>
 
 <img src="<%=fighter.photo%>" height=150 />
 
@@ -34,7 +34,7 @@
       Win %:
     </th>
     <td>
-      <%=fighter.win_percent%>
+      <%=fighter.win_percent + '%';%>
     </td>
   </tr>
   <tr>

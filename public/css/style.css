@@ -1,9 +1,27 @@
+h1 {
+  text-align: center;
+  font-size: 15px;
+  font-family: cursive;
+}
+
 button {
-  background-color: #00ffdd;
-  font-size: 12px;
-  border-radius: 6px;
-  border: 2px solid #00cccc;
-  padding: 7px 12px;
+  background-color: #f5daef;
+  font-size: 10px;
+  border-radius: 3px;
+  border: 1px solid #ffffff;
+  padding: 5px 10px;
+}
+
+.column2 {
+  float: left;
+  width: 50%;
+  padding: 5px;
+}
+
+.row1::after {
+  content: "";
+  clear: both;
+  display: table;
 }
 
 button:hover {
@@ -16,7 +34,7 @@ button:focus {
 
 table {
   border-collapse: collapse;
-  background-color: #4dffe7;
+  background-color: #ffffff;
   margin: auto;
   width: 50%;
 }
@@ -28,7 +46,7 @@ table, th, td {
 }
 
 tr:hover {
-  background-color: #ccfff8;
+  background-color: #f5daef;
 }
 
 a {
@@ -201,4 +219,8 @@ div.scroll {
 .blockGold{
 	background-color: #d7bf4a;
 	color:#fff;
+}
+
+body {
+background-color: #f5daef;
 }

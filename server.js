@@ -26,13 +26,13 @@ app.get('/', function(request, response) {
 });
 
 app.get('/play', function(request, response) {
-    let opponents = JSON.parse(fs.readFileSync('data/opponents.json'));
+    let users = JSON.parse(fs.readFileSync('data/users.json'));
     let words = JSON.parse(fs.readFileSync('data/words.json'));
     let fighters = JSON.parse(fs.readFileSync('data/fighters.json'));
     response.status(200);
     response.setHeader('Content-Type', 'text/html')
     response.render("play", {
-      data: opponents,
+      data: users,
       dataW: words,
       dataF: fighters
     });
@@ -46,7 +46,7 @@ app.get('/result', function(request, response) {
 });
 
 app.get('/play2', function(request, response) {
-  let opponents = JSON.parse(fs.readFileSync('data/opponents.json'));
+  let users = JSON.parse(fs.readFileSync('data/users.json'));
   let fighters = JSON.parse(fs.readFileSync('data/fighters.json'));
   let words = JSON.parse(fs.readFileSync('data/words.json'));
   let chosenWord;
@@ -55,11 +55,11 @@ app.get('/play2', function(request, response) {
   let gameTime = 0;
 
     //accessing URL query string information from the request object
-    let opponent = request.query.opponent;
+    let user = request.query.user;
     let word = request.query.word;
     let fighter = request.query.fighter;
 
-    if(opponents[opponent] || words[word] || fighters[fighter]){
+    if(users[user] || words[word] || fighters[fighter]){
       let wordlist = [];
       words.forEach(function(word){
         wordlist.push(word.name);
@@ -67,8 +67,6 @@ app.get('/play2', function(request, response) {
 
       let rand = Math.floor(Math.random() * wordlist.length);
       let chosenWord  = wordlist[rand];
-      //console.log("server wordlist: " + wordlist);
-      //console.log("server.js chosenWord: " + chosenWord);
 
       words.forEach(function(word){
         if (chosenWord == word.name) {
@@ -80,18 +78,16 @@ app.get('/play2', function(request, response) {
         console.log(word.chosen_percent);
       });
 
-      function lose(){ //opponents meaning users
-        opponents[opponent].lose++;
+      function lose(){
+        users[user].lose++;
         fighters[fighter].win++;
         let win = false;
-        console.log("loser!");
       }
 
-      function win(){ //opponents meaning users
-        opponents[opponent].win++;
+      function win(){
+        users[user].win++;
         fighters[fighter].lose++;
         fighters[fighter].time--;
-        console.log("you won!");
       }
 
       let interval = 0;
@@ -99,10 +95,6 @@ app.get('/play2', function(request, response) {
       function timer(){
         gameTime++;
         if (gameTime < fighters[fighter].time){
-          //if (chosenWord==guessWord){
-          //win();
-          //}
-
         }
         else {
           lose();
@@ -116,40 +108,18 @@ app.get('/play2', function(request, response) {
 
       let results={};
 
-      results["opponentName"]=opponent;
-      results["opponentPhoto"]=opponents[opponent].photo;
-    //  results["opponentTime"]= gameTime;
+      results["userName"]=user;
+      results["userPhoto"]=users[user].photo;
       results["fighterName"]=fighter;
       results["fighterPhoto"]=fighters[fighter].photo;
       results["fighterTime"]=fighters[fighter].time;
       results["chosenWord"]=chosenWord;
       results["chosenWordCount"]=chosenWord.chosenWordCount;
 
-
-      /*if(results["opponentTime"]<=results["fighterTime"]){
-      if(results["opponentGuess"]===results["chosenWord"]){
-        results["outcome"] = "win";
-      }
-      else if(results["opponentGuess"]!=results["chosenWord"]){
-        results["outcome"] = "lose";
-      }
-      }else{
-        results["outcome"] = "lose";
-      }
-
-      if(results["outcome"]=="win"){
-        opponents[opponent]["win"]++;
-        fighters[fighter]["time"]++;
-      }
-      else opponents[opponent]["lose"]++; */
-
       interval = setInterval(timer, 1000);
 
-      //if time is greater than fighter time and win is not false; then you win!
-
-
-      //update opponents.json to permanently remember results
-      fs.writeFileSync('data/opponents.json', JSON.stringify(opponents));
+      //update users.json to permanently remember results
+      fs.writeFileSync('data/users.json', JSON.stringify(users));
       fs.writeFileSync('data/words.json', JSON.stringify(words));
       fs.writeFileSync('data/fighters.json', JSON.stringify(fighters));
 
@@ -158,7 +128,8 @@ app.get('/play2', function(request, response) {
       response.render("play2", {
         data: results,
         dataset: words,
-        chosenWordServer : chosenWord
+        chosenWordServer : chosenWord,
+
       });
     }else{
       response.status(404);
@@ -171,24 +142,24 @@ app.get('/play2', function(request, response) {
 });
 
 
-app.get('/opponentsScores', function(request, response) {
-  let opponents = JSON.parse(fs.readFileSync('data/opponents.json'));
-  let opponentArray=[];
+app.get('/usersScores', function(request, response) {
+  let users = JSON.parse(fs.readFileSync('data/users.json'));
+  let userArray=[];
 
   //create an array to use sort, and dynamically generate win percent
-  for(name in opponents){
-    opponents[name].win_percent = (opponents[name].win/parseFloat(opponents[name].win+opponents[name].lose+opponents[name].tie) * 100).toFixed(2);
-    if(opponents[name].win_percent=="NaN") opponents[name].win_percent=0;
-    opponentArray.push(opponents[name])
+  for(name in users){
+    users[name].win_percent = (users[name].win/parseFloat(users[name].win+users[name].lose+users[name].tie) * 100).toFixed(2);
+    if(users[name].win_percent=="NaN") users[name].win_percent=0;
+    userArray.push(users[name])
   }
-  opponentArray.sort(function(a, b){
+  userArray.sort(function(a, b){
     return parseFloat(b.win_percent)-parseFloat(a.win_percent);
   })
 
   response.status(200);
   response.setHeader('Content-Type', 'text/html')
-  response.render("opponentsScores",{
-    opponents: opponentArray,
+  response.render("usersScores",{
+    users: userArray,
   });
 });
 
@@ -212,20 +183,20 @@ app.get('/fightersScores', function(request, response) {
   });
 });
 
-app.get('/opponent/:opponentName', function(request, response) {
-  let opponents = JSON.parse(fs.readFileSync('data/opponents.json'));
+app.get('/user/:userName', function(request, response) {
+  let users = JSON.parse(fs.readFileSync('data/users.json'));
 
   // using dynamic routes to specify resource request information
-  let opponentName = request.params.opponentName;
+  let userName = request.params.userName;
 
-  if(opponents[opponentName]){
-    opponents[opponentName].win_percent = (opponents[opponentName].win/parseFloat(opponents[opponentName].win+opponents[opponentName].lose) * 100).toFixed(2);
-    if(opponents[opponentName].win_percent=="NaN") opponents[opponentName].win_percent=0;
+  if(users[userName]){
+    users[userName].win_percent = (users[userName].win/parseFloat(users[userName].win+users[userName].lose) * 100).toFixed(2);
+    if(users[userName].win_percent=="NaN") users[userName].win_percent=0;
 
     response.status(200);
     response.setHeader('Content-Type', 'text/html')
-    response.render("opponentDetails",{
-      opponent: opponents[opponentName]
+    response.render("userDetails",{
+      user: users[userName]
     });
 
   }else{
@@ -262,29 +233,29 @@ app.get('/fighter/:fighterName', function(request, response) {
   }
 });
 
-app.get('/opponentCreate', function(request, response) {
+app.get('/userCreate', function(request, response) {
     response.status(200);
     response.setHeader('Content-Type', 'text/html')
-    response.render("opponentCreate");
+    response.render("userCreate");
 });
 
-app.post('/opponentCreate', function(request, response) {
-    let opponentName = request.body.opponentName;
-    let opponentPhoto = request.body.opponentPhoto;
-    if(opponentName&&opponentPhoto){
-      let opponents = JSON.parse(fs.readFileSync('data/opponents.json'));
-      let newOpponent={
-        "name": opponentName,
-        "photo": opponentPhoto,
+app.post('/userCreate', function(request, response) {
+    let userName = request.body.userName;
+    let userPhoto = request.body.userPhoto;
+    if(userName&&userPhoto){
+      let users = JSON.parse(fs.readFileSync('data/users.json'));
+      let newuser={
+        "name": userName,
+        "photo": userPhoto,
         "win":0,
         "lose": 0,
       }
-      opponents[opponentName] = newOpponent;
-      fs.writeFileSync('data/opponents.json', JSON.stringify(opponents));
+      users[userName] = newuser;
+      fs.writeFileSync('data/users.json', JSON.stringify(users));
 
       response.status(200);
       response.setHeader('Content-Type', 'text/html')
-      response.redirect("/opponent/"+opponentName);
+      response.redirect("/user/"+userName);
     }else{
       response.status(400);
       response.setHeader('Content-Type', 'text/html')
