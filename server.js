@@ -98,19 +98,12 @@ app.get('/play2', function(request, response) {
 
       function timer(){
         gameTime++;
-        if (gameTime < fighters[fighter].time){
-          //if (chosenWord==guessWord){
-          //win();
-          //}
-
-        }
-        else {
-          lose();
-          clearInterval(interval);
-        }
-
         if (gameTime > fighters[fighter].time && win === true) {
           win();
+        }
+        else{
+          lose();
+          clearInterval(interval);
         }
       }
 

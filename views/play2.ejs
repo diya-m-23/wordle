@@ -1,7 +1,7 @@
-
 <%- include('partials/header', {title:"Results: P, R, S"}) -%>
 
 <img src="<%=data.opponentPhoto%>" height=150 />
+
 <p> You are playing as <%=data.opponentName%><p>
 <p>You have <%=data.fighterTime%> seconds to beat <%=data.fighterName%></p>
 
@@ -10,10 +10,8 @@
 </form></div>
 
 <script>
-
   let wordlist = [];
   let chosenWord;
-
   <% dataset.forEach(function(set) { %>
    {
      let name = "<%= set.name %>";
@@ -21,7 +19,6 @@
     }
   <% }); %>
   console.log(wordlist);
-
 
       let currentRow = 0;
       let nextRowBlock = 0;
@@ -227,10 +224,16 @@
         if(score === 5){
           notification.innerText = 'Well done, you won! Enter to play again';
           gameOver();
+          var stringData = "some string data";
+          var jsonData = JSON.stringify({data: stringData});
+          localStorage.setItem("jsonData", jsonData);
         }
         else if(currentRow == 5){
           notification.innerText = 'You lost. The word was ' + chosenWord + '. Press Enter to play again';
           gameOver();
+          var stringData = "some string data";
+          var jsonData = JSON.stringify({data: stringData});
+          localStorage.setItem("jsonData", jsonData);
         }
         else{
           score = 0;
