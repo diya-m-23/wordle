@@ -1,6 +1,6 @@
-<%- include('partials/header', {title:"Weirdle: Player Leaderboard"}) -%>
+<%- include('partials/header', {title:"Weirdle: Fighter Leaderboard"}) -%>
 
-<h2>My Players</h2>
+<h2 style="text-align:center">My Fighters</h2>
 <table>
   <tr>
     <th>
@@ -31,7 +31,7 @@
     <%=fighters[i].lose%>
   </th>
   <th>
-    <%=fighters[i].win_percent%>
+    <%=fighters[i].win_percent + '%';%>
   </th>
   <th>
     <%=fighters[i].time%>

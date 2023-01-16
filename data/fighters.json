@@ -1,1 +1,58 @@
-{"Mario":{"name":"Mario","photo":"https://upload.wikimedia.org/wikipedia/en/a/a9/MarioNSMBUDeluxe.png","win":37,"lose":28,"time":10},"Luigi":{"name":"Luigi","photo":"https://upload.wikimedia.org/wikipedia/en/7/73/Luigi_NSMBUDX.png","win":12,"lose":5},"Toad":{"name":"Toad","photo":"https://upload.wikimedia.org/wikipedia/en/d/d1/Toad_3D_Land.png","win":2,"lose":6},"Peach":{"name":"Peach","photo":"https://upload.wikimedia.org/wikipedia/en/1/16/Princess_Peach_Stock_Art.png","win":20,"lose":5},"Bowser":{"name":"Bowser","photo":"https://upload.wikimedia.org/wikipedia/en/9/92/Bowser_Stock_Art_2021.png","win":101,"lose":5},"Yoshi":{"name":"Yoshi","photo":"https://upload.wikimedia.org/wikipedia/en/d/db/Yoshi_%28Nintendo_character%29.png","win":10,"lose":7},"Birdo":{"name":"Birdo","photo":"https://upload.wikimedia.org/wikipedia/en/f/f9/Birdo-MP9.png","win":11,"lose":5},"Koopa":{"name":"Koopa","photo":"https://upload.wikimedia.org/wikipedia/en/b/b2/Koopa_Troopa_NSMBU.png","win":1,"lose":2},"hey":{"name":"hey","photo":"9","win":0,"lose":0},"heo":{"name":"heo","photo":"9","win":0,"lose":0},"hea":{"name":"hea","photo":"https://upload.wikimedia.org/wikipedia/en/d/d1/Toad_3D_Land.png","time":"9","win":0,"lose":0}}
+{
+  "Sailor Moon": {
+    "name": "Sailor Moon",
+    "photo": "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/dd34b373-73fd-4bad-afbe-3dfda88ed028/d9u756p-247848aa-da3c-4f1f-8e53-1e4a624295a4.png/v1/fill/w_900,h_765,strp/sailor_moon_png_by_misaamanebella_d9u756p-fullview.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9NzY1IiwicGF0aCI6IlwvZlwvZGQzNGIzNzMtNzNmZC00YmFkLWFmYmUtM2RmZGE4OGVkMDI4XC9kOXU3NTZwLTI0Nzg0OGFhLWRhM2MtNGYxZi04ZTUzLTFlNGE2MjQyOTVhNC5wbmciLCJ3aWR0aCI6Ijw9OTAwIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmltYWdlLm9wZXJhdGlvbnMiXX0.xx7Ls5BkUb_RSe_iqyeU-AXjoJuuzNK8IOcScIwafD4",
+    "win": 3,
+    "lose": 2,
+    "time": 15
+  },
+  "Sailor Mercury": {
+    "name": "Sailor Mercury",
+    "photo": "https://i.pinimg.com/564x/5b/f6/8a/5bf68a4df87c099c4654b87f8cdba849.jpg",
+    "win": 12,
+    "lose": 5,
+    "time": 20
+  },
+  "Sailor Jupiter": {
+    "name": "Sailor Jupiter",
+    "photo": "https://i.pinimg.com/736x/e6/58/b1/e658b17978bd48293f41f69dd0c82aef.jpg",
+    "win": 2,
+    "lose": 6,
+    "time": 30
+  },
+  "Sailor Mars": {
+    "name": "Sailor Mars",
+    "photo": "https://www.seekpng.com/png/detail/30-304109_sailor-moon-sailor-mars.png",
+    "win": 20,
+    "lose": 5,
+    "time": 25
+  },
+  "Sailor Venus": {
+    "name": "Sailor Venus",
+    "photo": "https://www.nicepng.com/png/detail/218-2180189_sailor-venus.png",
+    "win": 10,
+    "lose": 5,
+    "time": 25
+  },
+  "Tuxedo Mask": {
+    "name": "Tuxedo Mask",
+    "photo": "https://www.pngitem.com/pimgs/m/343-3436226_smc-transparent-tuxedo-mask-pinterest-sailor-moon-png.png",
+    "win": 10,
+    "lose": 7,
+    "time": 30
+  },
+  "Luna": {
+    "name": "Luna",
+    "photo": "https://www.kindpng.com/picc/m/587-5876252_sailor-sailormoon-luna-lunasailormoon-sailormoonluna-luna-en-anime.png",
+    "win": 11,
+    "lose": 5,
+    "time": 15
+  },
+  "Artmeis": {
+    "name": "Artemis",
+    "photo": "https://i.pinimg.com/736x/5a/f0/89/5af0892b3d248112b46b5feed109598e.jpg",
+    "win": 1,
+    "lose": 2,
+    "time": 30
+  }
+}

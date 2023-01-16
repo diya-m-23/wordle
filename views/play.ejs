@@ -1,12 +1,12 @@
 <%- include('partials/header', {title:"Play: Weirdle"}) -%>
 
-<p> Choose your opponent! Whoever clears the game first wins. <br>
-  *Note that the more you play and win with one opponent, the faster they get.
+<p> Choose your fighter! Whoever clears the game first wins. <br>
+  *Note that the more you win against one fighter, the faster they get.
 
   <form action="/play2" method="GET">
-    <img title="" src="" id="opponentImage" />
-    <label for="opponent">I am:</label>
-    <select id="opponent" name="opponent">
+    <img title="" src="" id="userImage" />
+    <label for="user">I am:</label>
+    <select id="user" name="user">
       <%for(player in data){%>
 
       <option value="<%=player%>"><%=player%></option>
@@ -15,7 +15,7 @@
     <img title="" src="" id="fighterImage" />
     <label for="fighter">I challenge:</label>
     <select id="fighter" name="fighter">
-      <%for(player in data){%>
+      <%for(player in dataF){%>
 
       <option value="<%=player%>"><%=player%></option>
       <%}%>

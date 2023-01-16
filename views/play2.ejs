@@ -1,9 +1,17 @@
-<%- include('partials/header', {title:"Results: P, R, S"}) -%>
 
-<img src="<%=data.opponentPhoto%>" height=150 />
+<%- include('partials/header', {title:"Play Weirdle!"}) -%>
 
-<p> You are playing as <%=data.opponentName%><p>
-<p>You have <%=data.fighterTime%> seconds to beat <%=data.fighterName%></p>
+<div class="row1">
+  <div class="column2">
+    <img src="<%=data.userPhoto%>" height="100">
+  </div>
+  <div class="column2">
+    <img src="<%=data.fighterPhoto%>" height="100">
+  </div>
+  </div>
+
+<p> You are playing as <%=data.userName%>, you have <%=data.fighterTime%> seconds to beat <%=data.fighterName%> <p>
+<p>Word bank: Acrid, Break, Cacao, Deals, Epoxy, Flail, Gloat, Heart, Icing, Juice, Knick, Laugh, Mound, Olden, Plain, Query, Right, Speak, Truth, Users, Vines, Wilts, Xerox, Yolks, Zebra</p>
 
 <div align="center"><form action="/result" method="GET">
   <input type="submit" value="Click me if you win!">
@@ -18,8 +26,8 @@
      wordlist.push(name);
     }
   <% }); %>
-  console.log(wordlist);
 
+  // Code for Wordle itself adapted from https://codepen.io/ozboware/pen/QWOWyBZ
       let currentRow = 0;
       let nextRowBlock = 0;
       let score = 0;
@@ -61,18 +69,18 @@
       score = 0;
       remNotification = 0;
       let chosenWord = "<%= chosenWordServer %>";
-      console.log(chosenWord);
 
-       let navBar = document.createElement('div');
+      let navBar = document.createElement('div');
       navBar.className = 'nav_bar';
       let giveUpBtn = document.createElement('button');
       giveUpBtn.id = 'giveUpBtn';
-      giveUpBtn.innerText = 'Give up';
+      giveUpBtn.innerText = 'Reveal Answer';
       giveUpBtn.addEventListener("click", function quitClick(event) {
         if(gameFin == 0){
-          notification.innerText = 'The word was ' + chosenWord + '. Press Enter to play again';
+          notification.innerText = 'The word was ' + chosenWord;
+          console.log('The word was ' + chosenWord);
           gameOver();
-        } console.log("checkpt 1");
+        }
       });
       navBar.append(giveUpBtn);
       container.append(navBar);
@@ -150,7 +158,6 @@
         let rowBlockEl = wordRow.childNodes;
         for(i = 0; i < alphabet.length; i++){
           if ((event.key === alphabet[i] || event.key === alphabet[i].toUpperCase())) {
-            console.log('checkpt3');
             addLetter(rowBlockEl, alphabet[i]);
           }
         }
@@ -168,7 +175,6 @@
       if(nextRowBlock > 0){
       nextRowBlock--;
       rowBlockEl[nextRowBlock].innerText = '';
-      console.log('checkpt4');
       }
       }
 
@@ -184,7 +190,6 @@
         let answer = [];
         for(i = 0; i < word.length; i++){
           let letter = word[i].toUpperCase();
-          console.log("cw: " + chosenWord);
           answer.push(letter);
           let blockClass = 'blockGrey';
           if(chosenWord.toUpperCase().includes(letter)){
@@ -222,14 +227,14 @@
         }
 
         if(score === 5){
-          notification.innerText = 'Well done, you won! Enter to play again';
+          notification.innerText = 'Well done, you won!';
           gameOver();
           var stringData = "some string data";
           var jsonData = JSON.stringify({data: stringData});
           localStorage.setItem("jsonData", jsonData);
         }
         else if(currentRow == 5){
-          notification.innerText = 'You lost. The word was ' + chosenWord + '. Press Enter to play again';
+          notification.innerText = 'You lost. The word was ' + chosenWord;
           gameOver();
           var stringData = "some string data";
           var jsonData = JSON.stringify({data: stringData});
@@ -280,6 +285,5 @@
       }
 
 </script>
-
 
 <%- include('partials/footer') -%>
