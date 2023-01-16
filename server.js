@@ -190,7 +190,7 @@ app.get('/fightersScores', function(request, response) {
   });
 });
 
-app.get('/wordsScores', function(request, response) {
+app.get('/wordScores', function(request, response) {
   let words = JSON.parse(fs.readFileSync('data/words.json'));
   let wordsArray=[];
 
@@ -203,10 +203,12 @@ app.get('/wordsScores', function(request, response) {
     return parseFloat(b.chosen_percent)-parseFloat(a.chosen_percent);
   })
 
+  console.log(wordsArray);
+
   response.status(200);
   response.setHeader('Content-Type', 'text/html')
   response.render("wordScores",{
-    words: wordsArray,
+    words: wordsArray
   });
 });
 

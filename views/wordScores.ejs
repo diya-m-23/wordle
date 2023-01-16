@@ -1,4 +1,4 @@
-<%- include('partials/header', {title:"User Leaderboard"}) -%>
+<%- include('partials/header', {title:"Words Leaderboard"}) -%>
 
 <h2 style="text-align:center">Words</h2>
 <table>
@@ -19,7 +19,7 @@
   <%for(let i =0; i<words.length; i++){%>
   <tr>
   <th>
-    <a><%=words[i].name%>"><%=words[i].name%></a>
+    <a><%=words[i].name%></a>
   </th>
   <th>
     <%=words[i].chosenWordCount%>
